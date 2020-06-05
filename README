@@ -1,0 +1,51 @@
+Demonstrate use of  docker command to run the airline web application
+
+
+$ python3 -m venv env
+$ source env/bin/activate
+(env) $ ls
+airline     docker-compose.yml  env      manage.py         RREADME.txt
+db.sqlite3  Dockerfile          flights  requirements.txt  typescript.txt
+(env) $ pip freeze
+pkg-resources==0.0.0
+
+
+(env) $ sudo docker-compose up
+Starting airline4_db_1 ...
+Starting airline4_db_1 ... done
+Starting airline4_migration_1 ...
+Starting airline4_migration_1 ... done
+Starting airline4_web_1 ...
+Starting airline4_web_1 ... done
+Attaching to airline4_db_1, airline4_migration_1, airline4_web_1
+migration_1  | Operations to perform:
+migration_1  |   Apply all migrations: admin, auth, contenttypes, flights, sessions
+migration_1  | Running migrations:
+migration_1  |   No migrations to apply.
+migration_1  |   Your models have changes that are not yet reflected in a migration, and so won't be applied.
+db_1         |
+migration_1  |   Run 'manage.py makemigrations' to make new migrations, and then re-run 'manage.py migrate' to apply them.
+db_1         | PostgreSQL Database directory appears to contain a database; Skipping initialization
+db_1         |
+db_1         | 2020-06-04 22:01:30.658 UTC [1] LOG:  starting PostgreSQL 12.3 (Debian 12.3-1.pgdg100+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 8.3.0-6) 8.3.0, 64-bit
+db_1         | 2020-06-04 22:01:30.658 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+db_1         | 2020-06-04 22:01:30.658 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+db_1         | 2020-06-04 22:01:30.725 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+db_1         | 2020-06-04 22:01:30.931 UTC [26] LOG:  database system was shut down at 2020-06-04 22:00:32 UTC
+db_1         | 2020-06-04 22:01:31.048 UTC [1] LOG:  database system is ready to accept connections
+airline4_migration_1 exited with code 0
+web_1        | [04/Jun/2020 22:11:31] "GET / HTTP/1.1" 200 220
+web_1        | [04/Jun/2020 22:11:31] "GET /static/flights/styles.css HTTP/1.1" 200 38
+web_1        | Not Found: /favicon.ico
+web_1        | [04/Jun/2020 22:11:31] "GET /favicon.ico HTTP/1.1" 404 2503
+^CGracefully stopping... (press Ctrl+C again to force)
+Stopping airline4_web_1 ... done
+Stopping airline4_db_1  ... done
+
+
+:/$ sudo docker ps -a
+CONTAINER ID        IMAGE                COMMAND                  CREATED             STATUS                       PORTS               NAMES
+                    
+52bf9e73d681        postgres             "docker-entrypoint.s…"   2 hours ago         Exited (0) 2 hours ago                           dockersample_db_1
+4238181e9123        airline4_web         "python3 manage.py r…"   7 days ago          Exited (137) 3 minutes ago                       airline4_web_1
+5d7cf12dcb5c        airline4_migration   "python3 manage.py m…"   7 days ago          Exited (0) 7 days ago                            airline4_migration_run_1
